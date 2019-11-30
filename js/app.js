@@ -40,6 +40,24 @@ class Player {
         this.y = y
         this.sprite = 'images/char-boy.png';
     }
+    handleInput(dir){
+        if (dir == "left"  && this.x > 0)
+        {
+            this.x -= 100;
+        }
+        else if (dir == "up" && this.y > -10)
+        {
+            this.y -= 100;
+        }
+        else if (dir == "right" && this.x <= 300)
+        {
+            this.x += 100;
+        }
+        else (dir == "down"&& this.y <= 400)
+        {
+            this.y += 100;
+        }
+    }
     update() { }
     render() { ctx.drawImage(Resources.get(this.sprite), this.x, this.y); }
 }
