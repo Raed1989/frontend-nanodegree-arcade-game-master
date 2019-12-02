@@ -14,13 +14,18 @@ body {
 }
 
 header{
+  display: inline-block;
     margin-right: 100px;
 }
+
+ /* This is the styling for the modal that Ive used : */
+
 #modal{
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+
     z-index: 100;
 }
   

@@ -22,23 +22,42 @@
 //};
 
 let panel = document.getElementsByClassName('panel')[0];
-let Score = document.getElementById('score');
+let scoreModal = document.getElementById('scoreModal');
+let score = document.getElementById('score');
 let backgroundColor = document.getElementsByTagName('body')[0];
+let scoreLbl = document.getElementsByTagName('h2')[0];
 let scoreCalculate = 0;
 
+
 class Enemy {
-    constructor(x, y) {
+    constructor(x, y,s) {
         this.x = x
         this.y = y
         this.sprite = 'images/enemy-bug.png';
-        this.speed = 150;
+    // to pass differnet speed for the 3 enemies
+        this.speed = s;
     }
+    // to move the enemey  
+    //  dt is a time delta between tick
     update(dt) {
         this.x += this.speed * dt;
+        // if the enemey go outside the canvas move it to the other end :)
         if(this.x > 510){
             this.x = -100;
         }
+        this.checkCollison();
      }
+     // to check the collide for the enemy then reset position lower score
+     checkCollison() {
+        if (
+            player.y + 135 >= this.y + 92 &&
+            player.x + 23 <= this.x + 86 &&
+            player.y + 70 <= this.y + 130 &&
+            player.x + 73 >= this.x + 12) {
+        resetPositoin();
+        lowerscore();
+        }
+    }
     render() { ctx.drawImage(Resources.get(this.sprite), this.x, this.y); }
 
 }
@@ -50,7 +69,7 @@ class Player {
         this.y = y
         this.sprite = 'images/char-boy.png';
     }
-   
+   // handle input from kwyboard
     handleInput(dir){
         if (dir === "left"  && this.x > 0)
         {
@@ -69,18 +88,17 @@ class Player {
             this.y += 90;
         }
     }
-    update() { 
+    update() {
+        // if the player land on the blue water higher his score and let him go back to start
         if(this.y <= 0 ){
-           scoreCalculate += 50;
-           score.textContent = scoreCalculate;
-            this.x = 200;
-            this.y = 420;
-
+             higherscore();
+             resetPositoin();
         }
-        if ( scoreCalculate === 100){
-            backgroundColor.style.background = "#2e2e2e";
-
-            panel.style.display = "block";
+        // if the score is 100
+        if(scoreCalculate === 100){
+            hideCanvas();
+            changeBackgroundColor();
+            DisplayPanel();
         }
     }
     render() { ctx.drawImage(Resources.get(this.sprite), this.x, this.y); }
@@ -92,9 +110,9 @@ class Player {
 // Now instantiate your objects.
 let player = new Player(200, 420);
 // Place all enemy objects in an array called allEnemies
-let enemy1 = new Enemy(100, 60);
-let enemy2 = new Enemy(200, 150);
-let enemy3 = new Enemy(300, 230);
+let enemy1 = new Enemy(100, 60,280);
+let enemy2 = new Enemy(200, 150,320);
+let enemy3 = new Enemy(300, 230,400);
 let allEnemies = [enemy1, enemy2,enemy3];
 // Place the player object in a variable called player
 
@@ -112,3 +130,43 @@ document.addEventListener('keyup', function (e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// add the score to the modal 
+function addscoreInsideModal() {
+    scoreModal.appendChild(scoreLbl);
+}
+
+// Show modal on win
+function DisplayPanel() {
+    addscoreInsideModal();
+    panel.style.display = "block";
+}
+
+// chane Background Color of the body 
+function changeBackgroundColor() {
+    backgroundColor.style.background = "#2e2e2e";
+}
+
+// to higher the score when collision
+function higherscore() {
+    scoreCalculate += 50;
+    score.textContent = scoreCalculate;
+}
+// to lower score when collision
+
+function lowerscore() {
+    if(scoreCalculate > 0){
+    scoreCalculate -= 50;
+    score.textContent = scoreCalculate;
+    }
+}
+// return player to its place on start
+
+function resetPositoin() {
+    player.x = 200;
+    player.y = 420;
+}
+// Hide canvas on win
+function hideCanvas(){
+    document.getElementsByTagName('canvas')[0].style.display = 'none';
+}
