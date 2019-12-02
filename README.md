@@ -6,12 +6,12 @@
 - [Instructions](#instructions)
 - [Contributing](#contributing)
 
-## HowtoPlay
+## How to Play
 
-1- move the player using keyboard arrows
-2- reach the blue water to get 50 points
-3- if you collide you will lose 50 points and go back to starting positon
-4- if you reach 100 you will win and the popup will appear
+1- move the player using keyboard arrows.<br />
+2- reach the blue water to get 50 points.<br />
+3- if you collide you will lose 50 points and go back to starting positon.<br />
+4- if you reach 100 you will win and the popup will appear.<br />
 
 ## Instructions
 
